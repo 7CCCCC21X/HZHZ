@@ -2,14 +2,13 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS  # 导入 CORS
 import requests
 import time
-import os
 
 # 创建 Flask 应用
 app = Flask(__name__)
 CORS(app)  # 启用 CORS
 
-# 从环境变量中获取 API 密钥
-API_KEY = os.getenv("API_KEY")  # 确保将你的API密钥设置为环境变量
+# 直接在代码中定义 API 密钥
+API_KEY = "your_actual_api_key_here"  # 请替换为实际的 API 密钥
 
 # 获取交易数据的函数
 def fetch_transactions(wallet_addresses, fixed_address, key, chain="soneium", limit=20):
