@@ -8,8 +8,8 @@ import os
 app = Flask(__name__)
 CORS(app)  # 启用 CORS
 
-# 直接在代码中定义 API 密钥
-API_KEY = "your_actual_api_key_here"  # 请替换为实际的 API 密钥
+# 通过环境变量获取 API 密钥
+API_KEY = os.getenv("API_KEY")  # 从环境变量中读取 API 密钥
 
 # 获取交易数据的函数
 def fetch_transactions(wallet_addresses, fixed_address, key, chain="soneium", limit=20):
