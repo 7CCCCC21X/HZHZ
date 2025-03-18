@@ -1,0 +1,5 @@
+Flask==2.1.2
+Flask-Cors==3.1.1
+requests==2.26.0
+gunicorn==20.1.0
+python-dotenv==0.19.2  # 可选，用于加载环境变量
