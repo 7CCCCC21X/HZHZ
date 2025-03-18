@@ -1,14 +1,13 @@
 from flask import Flask, request, jsonify, render_template
-from flask_cors import CORS  # 导入 CORS
+from flask_cors import CORS
 import requests
 import time
 
 app = Flask(__name__)
-CORS(app)  # 启用 CORS
- # 固定 address
+CORS(app)
 
-
-def fetch_transactions(wallet_addresses, fixed_address, key,chain="soneium", limit=20):
+# Your route functions here...
+def fetch_transactions(wallet_addresses, fixed_address, key, chain="soneium", limit=20):
     base_url = "https://www.oklink.com/priapi/v1/lite/evm/address/detail/transactions"
     results = {}
     headers = {
@@ -56,7 +55,7 @@ def get_transactions():
         wallet_addresses = [addr.strip() for addr in addresses.split(',') if addr.strip()]
 
         if source == "quickswap":
-            transactions_data = fetch_transactions(wallet_addresses,"0xeba58c20629ddab41e21a3e4e2422e583ebd9719",
+            transactions_data = fetch_transactions(wallet_addresses, "0xeba58c20629ddab41e21a3e4e2422e583ebd9719",
                                                    "LWIzMWUtNDU0Ny05Mjk5LWI2ZDA3Yjc2MzFhYmEyYzkwM2NjfDI4NTMzMzE1MDEyOTkxNjU=",)
         elif source == "untitledbank1":
             transactions_data = fetch_transactions(wallet_addresses, "0x232554b4b291a446b4829300bec133fbb07a8f2a",
@@ -68,13 +67,7 @@ def get_transactions():
             transactions_data = fetch_transactions(wallet_addresses, "0xc675bb95d73ca7db2c09c3dc04daaa7944ccba41",
                                                    "LWIzMWUtNDU0Ny05Mjk5LWI2ZDA3Yjc2MzFhYmEyYzkwM2NjfDI4NTMzMzkxNTYyNTE3MjM=")
 
-
-
         result = {addr: total for addr, total in transactions_data.items()}
         return jsonify(result)
     else:
         return jsonify({"error": "没有提供钱包地址"}), 400
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
