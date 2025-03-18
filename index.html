@@ -69,13 +69,13 @@
                 let apiUrl = '';
                 // 根据选择的查询类型构造请求 URL
                 if (queryType === "quickswap") {
-                    apiUrl = `http://localhost:5000/get_transactions?addresses=${encodeURIComponent(walletAddresses)}&source=quickswap`;
+                    apiUrl = `https://ascccc-44yzwflgk-7ccccc21xs-projects.vercel.app/get_transactions?addresses=${encodeURIComponent(walletAddresses)}&source=quickswap`;
                 } else if (queryType === "untitledbank1") {
-                    apiUrl = `http://localhost:5000/get_transactions?addresses=${encodeURIComponent(walletAddresses)}&source=untitledbank1`;
+                    apiUrl = `https://ascccc-44yzwflgk-7ccccc21xs-projects.vercel.app/get_transactions?addresses=${encodeURIComponent(walletAddresses)}&source=untitledbank1`;
                 } else if (queryType === "untitledbank2") {
-                    apiUrl = `http://localhost:5000/get_transactions?addresses=${encodeURIComponent(walletAddresses)}&source=untitledbank2`;
-                }else if (queryType === "untitledbank3") {
-                    apiUrl = `http://localhost:5000/get_transactions?addresses=${encodeURIComponent(walletAddresses)}&source=untitledbank3`;
+                    apiUrl = `https://ascccc-44yzwflgk-7ccccc21xs-projects.vercel.app/get_transactions?addresses=${encodeURIComponent(walletAddresses)}&source=untitledbank2`;
+                } else if (queryType === "untitledbank3") {
+                    apiUrl = `https://ascccc-44yzwflgk-7ccccc21xs-projects.vercel.app/get_transactions?addresses=${encodeURIComponent(walletAddresses)}&source=untitledbank3`;
                 }
 
                 const response = await fetch(apiUrl);
