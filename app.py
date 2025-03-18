@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS  # 导入 CORS
 import requests
 import time
+import os
 
 # 创建 Flask 应用
 app = Flask(__name__)
