@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>查询钱包交易总数</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #output {
+            margin-top: 20px;
+        }
+        input {
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        select {
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>查询钱包交易总数</h1>
+    <p>请输入钱包地址（多个地址用逗号分隔）：</p>
+    <input type="text" id="walletAddresses" placeholder="例如：0xfbe4ff7c9ac1e2f42970b6a4aedd4b789f0d807b, 0x1234567890abcdef">
+
+    <p>选择查询类型：</p>
+    <select id="queryType">
+        <option value="quickswap">QuickSwap</option>
+        <option value="untitledbank1">UntitledBank (ETH存款)</option>
+        <option value="untitledbank2">UntitledBank (ASTR存款)</option>
+        <option value="untitledbank3">UntitledBank (USDC存款)</option>
+    </select>
+
+    <button onclick="fetchTransactionData()">查询</button>
+
+    <div id="output"></div>
+
+    <script>
+        async function fetchTransactionData() {
+            const walletAddresses = document.getElementById('walletAddresses').value.trim();
+            const queryType = document.getElementById('queryType').value;
+
+            if (!walletAddresses) {
+                alert('请输入钱包地址');
+                return;
+            }
+
+            const addressesArray = walletAddresses.split(',').map(addr => addr.trim());
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = '';  // 清空输出
+
+            try {
+                let apiUrl = '';
+                // 根据选择的查询类型构造请求 URL
+                if (queryType === "quickswap") {
+                    apiUrl = `http://localhost:5000/get_transactions?addresses=${encodeURIComponent(walletAddresses)}&source=quickswap`;
+                } else if (queryType === "untitledbank1") {
+                    apiUrl = `http://localhost:5000/get_transactions?addresses=${encodeURIComponent(walletAddresses)}&source=untitledbank1`;
+                } else if (queryType === "untitledbank2") {
+                    apiUrl = `http://localhost:5000/get_transactions?addresses=${encodeURIComponent(walletAddresses)}&source=untitledbank2`;
+                }else if (queryType === "untitledbank3") {
+                    apiUrl = `http://localhost:5000/get_transactions?addresses=${encodeURIComponent(walletAddresses)}&source=untitledbank3`;
+                }
+
+                const response = await fetch(apiUrl);
+
+                if (!response.ok) {
+                    throw new Error('请求失败');
+                }
+
+                const data = await response.json();
+                const threshold = 10; // 阈值固定为10
+
+                addressesArray.forEach(address => {
+                    const total = data[address];
+                    if (total !== null && total !== undefined) {
+                        if (total >= threshold) {
+                            outputDiv.innerHTML += `<p>钱包地址 ${address} 的交易总数：${total}（达标）</p>`;
+                        } else {
+                            outputDiv.innerHTML += `<p>钱包地址 ${address} 的交易总数：${total}（未达标）</p>`;
+                        }
+                    } else {
+                        outputDiv.innerHTML += `<p>无法获取钱包地址 ${address} 的交易数据。</p>`;
+                    }
+                });
+            } catch (error) {
+                outputDiv.innerHTML += `<p>请求失败：${error}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
