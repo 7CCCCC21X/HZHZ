@@ -1,18 +1,17 @@
-{
-  "version": 2,
-  "builds": [
-    {
-      "src": "app.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxDuration": 10
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "app.py"
-    }
-  ]
-}
+# Python的虚拟环境
+*.env
+*.venv
+*.env.*
+# Python缓存
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Flask相关文件
+instance/
+*.db
+*.sqlite
+
+# Vercel部署文件
+.vercel/
